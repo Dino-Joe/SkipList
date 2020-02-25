@@ -4,7 +4,7 @@ Generic skip list implementation in Java. Feel free to use and abuse this code h
 Below is a brief rundown of the SkipList and Node classes.
 
 ## SkipList Constructors
-- **SkipList\<T\>()** ---- This constructor creates a new SkipList. The height set by default to 1.
+- **SkipList\<T\>()** ---- This constructor creates a new SkipList. The height is set by default to 1.
 
 - **SkipList\<T\>(int height)** ---- This constructor creates a new skip list and initializes the head node to have the height specified by the height parameter. If the height is less than the default height, it is set to the default instead.
 
