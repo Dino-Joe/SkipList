@@ -335,13 +335,4 @@ public class SkipList<T extends Comparable<T>>
 		}
 	}
 
-	public static double difficultyRating()
-	{
-		return 3.5;
-	}
-
-	public static double hoursSpent()
-	{
-		return 20.0;
-	}
 }
