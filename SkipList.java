@@ -7,7 +7,7 @@
 
 import java.util.*;
 
-class Node<T extends Comparable<T>>
+class Node<T>
 {
 	private static final Random r = new Random();
 	private T data;
@@ -16,7 +16,7 @@ class Node<T extends Comparable<T>>
 	// constructs empty node of specified height
 	Node(int height)
 	{
-		next = new ArrayList<>(height);
+		next = new ArrayList<>(height + 1);
 
 		// fills next array so height() works
 		for (int i = 0; i < height; i++)
@@ -51,6 +51,10 @@ class Node<T extends Comparable<T>>
 		return next.get(level);
 	}
 
+	// =========================
+	// Utility Methods
+	// =========================
+
 	// sets next reference at given level within node
 	public void setNext(int level, Node<T> node)
 	{
@@ -60,7 +64,6 @@ class Node<T extends Comparable<T>>
 	// grows node height by exactly one
 	public void grow()
 	{
-		next.ensureCapacity(height() + 1);
 		next.add(null);
 	}
 
@@ -75,8 +78,10 @@ class Node<T extends Comparable<T>>
 	// trims height to new specified height
 	public void trim(int height)
 	{
-		while (height() > height)
-			next.remove(height() - 1);
+		if (height >= height()) 
+			return;
+
+		next.subList(height, height()).clear();
 	}
 }
 
@@ -156,7 +161,7 @@ public class SkipList<T extends Comparable<T>>
 		size++;
 
 		// grows the list vertically, if necessary
-		if (this.height() < getMaxHeight(size))
+		if (height() < getMaxHeight(size()))
 			growSkipList();
 	}
 
@@ -171,7 +176,8 @@ public class SkipList<T extends Comparable<T>>
 		size--;
 
 		// shrinks list vertically, if necessary
-		trimList();
+		if (height() > getMaxHeight(size()))
+			trimList();
 
 		// ex-parents of dead node adopt its children
 		for (int level = deadNode.height(); --level >= 0;)
@@ -210,7 +216,11 @@ public class SkipList<T extends Comparable<T>>
 		return null;
 	}
 
-	// Searches for a piece of data, locking nodes as it does so
+	// =========================
+	// Utility Methods
+	// =========================
+
+	// Searches for a piece of data, saving history as it does so
 	private void browseSkipList(T searchTerm)
 	{
 		Node<T> temp = head(), peekAhead, alreadyChecked = null;
@@ -228,7 +238,7 @@ public class SkipList<T extends Comparable<T>>
 					break;
 
 				// no point in comparing if node was just visited!
-				// limits comparisons in case they are very expensive
+				// limits value comparisons in case they are very expensive
 				if (peekAhead == alreadyChecked)
 					break;
 
@@ -242,12 +252,12 @@ public class SkipList<T extends Comparable<T>>
 				temp = peekAhead;
 			}
 
-			// locks the drop-down node for each level of the skip list.
+			// stores the drop-down node for this level of the skip list.
 			// This data is used by insert() and delete().
 			searchHistory.setNext(level, temp);
 		}
 
-			// The highest level locks the first instance of our search term...
+			// The highest level stores the first instance of our search term...
 			// if it exists. This data is used by get() and contains().
 			searchHistory.setNext(height(), temp.next(0));
 			searchIndex = searchHistory.height() - 1;
@@ -272,10 +282,10 @@ public class SkipList<T extends Comparable<T>>
 	{
 		int coinFlip = r.nextInt();
 
-		// ensures the first set bit location < maxHeight
+		// ensures first set bit location > maxHeight
 		coinFlip |= -1 << (maxHeight - 1);
 
-		// the location of the first set bit for a random int ~ G(0.5).
+		// location of the last set bit for a random int follows ~ G(0.5).
 		// that lets us simulate coin flips in O(1) time.
 		int height = Integer.numberOfTrailingZeros(coinFlip) + 1;
 
@@ -333,5 +343,4 @@ public class SkipList<T extends Comparable<T>>
 			temp.trim(newHeight);
 		}
 	}
-
 }
