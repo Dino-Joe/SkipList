@@ -1,14 +1,14 @@
 # SkipList
-Generic SkipList implementation in Java. Feel free to use and abuse this code however you'd like.
+Generic skip list implementation in Java. Feel free to use and abuse this code however you'd like.
 
-Below is a brief rundown of this class.
+Below is a brief rundown of the SkipList and Node classes.
 
 ## SkipList Constructors
 - **SkipList<>()** ---- This constructor creates a new SkipList. The height set by default to 1.
 
 - **SkipList<>(int height)** ---- This constructor creates a new skip list and initializes the head node to have the height specified by the height parameter. If the height is less than the default height, it is set to the default instead.
 
-## SkipList Public Methods
+## SkipList Methods
 
 - **int size()** ---- Returns the number of nodes in the SkipList (excluding the head, since it does not
 contain a value).
@@ -26,3 +26,17 @@ contain a value).
 - **boolean contains(T data)** ---- Returns true if the SkipList contains *data*. Otherwise, returns false.
 
 - **Node\<T\> get(T data)** ---- Returns a reference to a node in the SkipList that contains *data*. If no such node exists, returns null. If multiple such nodes exist, returns the leftmost one.
+
+## Node Constructors
+- **Node<>(int height)** ---- This constructor creates a new node with the specified height, which must be greater than zero. All of the node’s next references are initialized to null. 
+
+- **Node<>(T data, int height)** ---- This constructor creates a new node with the specified height, which must be greater than zero, and
+initializes the node’s value to data. All of the node’s next references are initialized to null.
+
+## Node Methods
+- **T value()** ---- Returns the value stored at this node.
+
+- **int height()** ---- Returns the height of this node.
+
+- **Node\<T\> next(int level)** ---- Returns a reference to the next node in the SkipList at this particular level. Levels
+are numbered 0 through (height – 1), from bottom to top. If level is less than 0 or greater than (height – 1), returns null.
