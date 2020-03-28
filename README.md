@@ -25,13 +25,12 @@ contain a value).
 
 - **boolean contains(T data)** ---- Returns true if the SkipList contains *data*. Otherwise, returns false.
 
-- **Node\<T\> get(T data)** ---- Returns a reference to a node in the SkipList that contains *data*. If no such node exists, returns null. If multiple such nodes exist, returns the leftmost one.
+- **Node\<T\> get(T data)** ---- Returns a reference to a node in the SkipList that contains *data*. If no such node exists, returns null. If duplicates exist, returns the first instance encountered in a standard search.
 
 ## Node Constructors
-- **Node\<T\>(int height)** ---- This constructor creates a new node with the specified height, which must be greater than zero. All of the node’s next references are initialized to null. 
+- **Node\<T\>(int height)** ---- This constructor creates a new node with the specified height, which must be greater than zero. All of the node’s *next* references are initialized to null. 
 
-- **Node\<T\>(T data, int height)** ---- This constructor creates a new node with the specified height, which must be greater than zero, and
-initializes the node’s value to data. All of the node’s next references are initialized to null.
+- **Node\<T\>(T data, int height)** ---- This constructor creates a new node with the specified height, which must be greater than zero, and initializes the node’s value to data. All of the node’s *next* references are initialized to null.
 
 ## Public Node Methods
 - **T value()** ---- Returns the value stored at this node.
